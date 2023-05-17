@@ -62,15 +62,16 @@ function nextMonth() {
 
 // 일별 이벤트 추가 :: moveDate()를 할 때 작동되는 함수
 function addEvents() {
-    
+
     // 공휴일 추가
     const dates = [...tbody.querySelectorAll('td')].map(v => {
         if (v.innerText.length) return v;
     }).filter(x => x !== undefined);
+    console.log(dates);
 
     const holidays = ['1-1', '3-1', '5-5', '6-6', '8-15', '10-3', '10-9', '12-25']; // 양력 공휴일
     for (let day of holidays) {
-        let index = dates.findIndex(v => v.dataset.label.includes(day));
+        let index = dates.findIndex(v => (v.dataset.label.slice(5)).includes(day));
         if (index > -1) {
             dates[index].classList.add('holiday');
         }
