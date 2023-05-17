@@ -54,3 +54,7 @@
 #calendar .date_wrap table td {
     border: 1px solid #eee;
 }
+
+.holiday span {
+    color: red;
+}

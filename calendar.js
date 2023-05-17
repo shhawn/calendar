@@ -31,6 +31,7 @@ function moveDate(year, month) {
         dates[i].setAttribute('data-label', date);
         if (day === 0) dates[i].querySelector('span').style.color = 'red';
     }
+    addEvents();
 }
 
 // 현재 날짜 기준
@@ -57,4 +58,22 @@ function nextMonth() {
     tbody.innerHTML = '';
     curMonth++;
     moveDate(curYear, curMonth);
+}
+
+// 일별 이벤트 추가 :: moveDate()를 할 때 작동되는 함수
+function addEvents() {
+    
+    // 공휴일 추가
+    const dates = [...tbody.querySelectorAll('td')].map(v => {
+        if (v.innerText.length) return v;
+    }).filter(x => x !== undefined);
+
+    const holidays = ['1-1', '3-1', '5-5', '6-6', '8-15', '10-3', '10-9', '12-25']; // 양력 공휴일
+    for (let day of holidays) {
+        let index = dates.findIndex(v => v.dataset.label.includes(day));
+        if (index > -1) {
+            dates[index].classList.add('holiday');
+        }
+    }
+
 }
