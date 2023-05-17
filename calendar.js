@@ -11,7 +11,6 @@ let firstDate = new Date(curYear, curMonth - 1, 1).getDate();
 let lastDate = new Date(curYear, curMonth, 0).getDate();
 
 function moveDate(year, month) {
-    let targetDate = `${year}-${month}`;
     curDay = new Date(year, month - 1, 1).getDay();
     lastDate = new Date(year, month, 0).getDate();
     title.innerText = `${year}년 ${month}월`;
@@ -34,5 +33,28 @@ function moveDate(year, month) {
     }
 }
 
+// 현재 날짜 기준
 moveDate(curYear, curMonth);
-// moveDate(2023, 5)
+// moveDate(2023, 6);
+
+// 다음 달로 이동
+function prevMonth() {
+    if (curMonth === 1) {
+        curYear--;
+        curMonth = 13;
+    }
+    tbody.innerHTML = '';
+    curMonth--;
+    moveDate(curYear, curMonth);
+}
+
+// 이전 달로 이동
+function nextMonth() {
+    if (curMonth === 12) {
+        curYear++;
+        curMonth = 0;
+    }
+    tbody.innerHTML = '';
+    curMonth++;
+    moveDate(curYear, curMonth);
+}

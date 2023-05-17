@@ -4,10 +4,27 @@
     justify-content: center;
     align-items: center;
     height: 15vh;
+    position: relative;
 }
 #calendar .title_wrap h1 {
     font-size: 3.5rem;
     font-weight: 900;
+}
+#calendar .title_wrap button {
+    text-indent: -9999px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 5rem;
+    height: 5rem;
+}
+#calendar .title_wrap .prev {
+    left: 0;
+    background: url("./images/prev.png") no-repeat center / 1.5rem;
+}
+#calendar .title_wrap .next {
+    right: 0;
+    background: url("./images/next.png") no-repeat center / 1.5rem;
 }
 #calendar .date_wrap {
     height: 85vh;
