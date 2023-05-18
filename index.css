@@ -49,6 +49,7 @@
     position: absolute;
     top: 8%;
     right: 10%;
+    pointer-events: none;
 }
 #calendar .date_wrap table th,
 #calendar .date_wrap table td {
