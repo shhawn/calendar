@@ -9,8 +9,11 @@ let curDate = new Date().getDate();
 let curDay = new Date(curYear, curMonth - 1, 1).getDay();
 let firstDate = new Date(curYear, curMonth - 1, 1).getDate();
 let lastDate = new Date(curYear, curMonth, 0).getDate();
+let setYear = curYear;
+let setMonth = curMonth;
 
 function moveDate(year, month) {
+    tbody.innerHTML = '';
     curDay = new Date(year, month - 1, 1).getDay();
     lastDate = new Date(year, month, 0).getDate();
     title.innerText = `${year}년 ${month}월`;
@@ -44,7 +47,6 @@ function prevMonth() {
         curYear--;
         curMonth = 13;
     }
-    tbody.innerHTML = '';
     curMonth--;
     moveDate(curYear, curMonth);
 }
@@ -55,7 +57,6 @@ function nextMonth() {
         curYear++;
         curMonth = 0;
     }
-    tbody.innerHTML = '';
     curMonth++;
     moveDate(curYear, curMonth);
 }
@@ -74,6 +75,12 @@ function addEvents() {
             dates[index].classList.add('holiday');
         }
     }
+
+    // 특정 날짜 이동 모달창에 연도/월 입력
+    const year = document.getElementById('m_year');
+    const month = document.getElementById('m_month');
+    year.value = curYear;
+    month.value = curMonth;
 }
 
 // 클릭 이벤트 :: 날짜 칸을 클릭하면 해당 날짜를 출력
@@ -83,3 +90,81 @@ tbody.addEventListener('click', (e) => {
         console.log(date);
     }
 })
+
+// [ --- 특정 연도/월로 이동하는 이벤트 --- ]
+function onDateModal() { // 모달창 ON
+    const modal = document.querySelector('.move_wrap');
+    const bg = document.querySelector('.bg');
+    modal.classList.remove('off');
+    bg.classList.remove('off');
+}
+
+function cancelDateModal() { // 모달창 - 취소
+    const modal = document.querySelector('.move_wrap');
+    const bg = document.querySelector('.bg');
+    modal.classList.add('off');
+    bg.classList.add('off');
+
+    const year = document.getElementById('m_year');
+    const month = document.getElementById('m_month');
+    year.value = curYear;
+    month.value = curMonth;
+}
+
+function checkDateModal() { // 모달창 - 이동
+    if ((setYear < 1970 || setYear > 2100 || !setYear) || (setMonth < 1 || setMonth > 12 || !setMonth)) {
+        alert('연도는 1970년부터 2100년까지, 월은 1월부터 12월까지의 값을 입력해주세요.');
+    } else {
+        moveDate(curYear, curMonth);
+        const modal = document.querySelector('.move_wrap');
+        const bg = document.querySelector('.bg');
+        modal.classList.add('off');
+        bg.classList.add('off');
+    }
+}
+
+function changeDateByBtn(target) { // 모달창에서 화살표 눌렀을 때
+    const type = target.name;
+    const inde = target.className;
+    
+    if (type === 'year') {
+        if (inde === 'up') curYear++;
+        if (inde === 'down') curYear--;
+    } else if (type === 'month') {
+        if (inde === 'up') {
+            if (curMonth >= 12) {
+                curYear++;
+                curMonth = 1;
+            } else {
+                curMonth++;
+            }
+        }
+        if (inde === 'down') {
+            if (curMonth <= 1) {
+                curYear--;
+                curMonth = 12;
+            } else {
+                curMonth--;
+            }
+        }
+    }
+
+    const year = document.getElementById('m_year');
+    const month = document.getElementById('m_month');
+    year.value = curYear;
+    month.value = curMonth;
+}
+
+function changeDateByInput(target) {
+    if (target.id === 'm_year') {
+        target.value = target.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1').replace(/(\d{4}).+/g, '$1');
+        setYear = parseInt(target.value);
+        curYear = target.value >= 1970 && target.value < 2100 ? target.value : curYear;
+    } else if (target.id === 'm_month') {
+        target.value = target.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1').replace(/(\d{2}).+/g, '$1');
+        setMonth = parseInt(target.value);
+        curMonth = parseInt(target.value) > 0 && parseInt(target.value) < 13 ? parseInt(target.value) : curMonth;
+    }
+}
+
+// 취소 눌렀을 때 현재 연도/월로 초기화 필요

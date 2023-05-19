@@ -13,7 +13,7 @@
         <div class="title_wrap">
             <button type="button" class="prev" onclick="prevMonth()">이전</button>
             <div class="current_wrap">
-                <h1>2023년 4월</h1>
+                <h1 onclick="onDateModal()"></h1>
             </div>
             <button type="button" class="next" onclick="nextMonth()">다음</button>
         </div>
@@ -34,6 +34,26 @@
                 </tbody>
             </table>
         </div>
+        <div class="move_wrap off">
+            <h2>이동할 날짜를 입력해주세요.</h2>
+            <div class="input_wrap">
+                <div class="year_wrap">
+                    <button type="button" name="year" class="up" onclick="changeDateByBtn(this)">위</button>
+                    <input type="text" id="m_year" value="" oninput="changeDateByInput(this)"><span>년</span>
+                    <button type="button" name="year" class="down" onclick="changeDateByBtn(this)">아래</button>
+                </div>
+                <div class="month_wrap">
+                    <button type="button" name="month" class="up" onclick="changeDateByBtn(this)">위</button>
+                    <input type="text" id="m_month" value="" oninput="changeDateByInput(this)"><span>월</span>
+                    <button type="button" name="month" class="down" onclick="changeDateByBtn(this)">아래</button>
+                </div>
+            </div>
+            <div class="answer_wrap">
+                <button type="button" class="move" onclick="checkDateModal()">이동</button>
+                <button type="button" class="cancel" onclick="cancelDateModal()">취소</button>
+            </div>
+        </div>
+        <div class="bg off"></div>
     </div>    
 </body>
 <script src="./calendar.js"></script>
