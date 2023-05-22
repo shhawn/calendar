@@ -9,8 +9,6 @@ let curDate = new Date().getDate();
 let curDay = new Date(curYear, curMonth - 1, 1).getDay();
 let firstDate = new Date(curYear, curMonth - 1, 1).getDate();
 let lastDate = new Date(curYear, curMonth, 0).getDate();
-let setYear = curYear;
-let setMonth = curMonth;
 
 function moveDate(year, month) {
     tbody.innerHTML = '';
@@ -91,7 +89,7 @@ tbody.addEventListener('click', (e) => {
     }
 })
 
-// [ --- 특정 연도/월로 이동하는 이벤트 --- ]
+// 특정 연도/월로 이동하는 이벤트 :: 상단의 연도/월을 클릭하면 작동
 function onDateModal() { // 모달창 ON
     const modal = document.querySelector('.move_wrap');
     const bg = document.querySelector('.bg');
@@ -105,6 +103,9 @@ function cancelDateModal() { // 모달창 - 취소
     modal.classList.add('off');
     bg.classList.add('off');
 
+    const currentDate = document.querySelector('.current_wrap h1').innerText.match(/\d+/g).map(Number);
+    curYear = currentDate[0];
+    curMonth = currentDate[1];
     const year = document.getElementById('m_year');
     const month = document.getElementById('m_month');
     year.value = curYear;
@@ -112,7 +113,7 @@ function cancelDateModal() { // 모달창 - 취소
 }
 
 function checkDateModal() { // 모달창 - 이동
-    if ((setYear < 1970 || setYear > 2100 || !setYear) || (setMonth < 1 || setMonth > 12 || !setMonth)) {
+    if ((curYear < 1970 || curYear > 2100 || !curYear) || (curMonth < 1 || curMonth > 12 || !curMonth)) {
         alert('연도는 1970년부터 2100년까지, 월은 1월부터 12월까지의 값을 입력해주세요.');
     } else {
         moveDate(curYear, curMonth);
@@ -158,13 +159,9 @@ function changeDateByBtn(target) { // 모달창에서 화살표 눌렀을 때
 function changeDateByInput(target) {
     if (target.id === 'm_year') {
         target.value = target.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1').replace(/(\d{4}).+/g, '$1');
-        setYear = parseInt(target.value);
-        curYear = target.value >= 1970 && target.value < 2100 ? target.value : curYear;
+        curYear = target.value;
     } else if (target.id === 'm_month') {
         target.value = target.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1').replace(/(\d{2}).+/g, '$1');
-        setMonth = parseInt(target.value);
-        curMonth = parseInt(target.value) > 0 && parseInt(target.value) < 13 ? parseInt(target.value) : curMonth;
+        curMonth = parseInt(target.value);
     }
 }
-
-// 취소 눌렀을 때 현재 연도/월로 초기화 필요
